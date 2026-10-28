@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Student Feedback System</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head><body>
+{% if session.role == 'admin' %}
+<aside class="side"><div class="brand">EduFeedback</div>
+<a class="{{ 'on' if active=='dash' }}" href="{{ url_for('dashboard') }}">Dashboard</a>
+<a class="{{ 'on' if active=='resp' }}" href="{{ url_for('responses') }}">Responses</a>
+<a href="{{ url_for('export') }}">Export CSV</a><a href="{{ url_for('logout') }}">Log out</a></aside>
+<main class="with-side">
+{% else %}
+<nav class="top"><a class="brand" href="/">EduFeedback</a><span>
+{% if session.role %}{{ session.user }} · <a href="{{ url_for('logout') }}">Log out</a>{% else %}<a href="{{ url_for('login') }}">Student login</a>{% endif %}</span></nav>
+<main class="container py-4">{% endif %}
+{% for cat, m in get_flashed_messages(with_categories=true) %}<div class="alert alert-{{ 'success' if cat=='ok' else 'danger' }}">{{ m }}</div>{% endfor %}
+{% block body %}{% endblock %}</main>{% block js %}{% endblock %}</body></html>

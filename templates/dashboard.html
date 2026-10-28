@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block body %}
+<h3>Dashboard</h3><p class="text-muted">Student feedback overview</p>
+<div class="kpis">
+<div class="kpi"><i style="background:#6c4cf1">▤</i><span>Total submissions</span><b>{{ s.total }}</b></div>
+<div class="kpi"><i style="background:#3b82f6">☺</i><span>Faculty members</span><b>{{ s.faculty }}</b></div>
+<div class="kpi"><i style="background:#22b573">✓</i><span>Subjects</span><b>{{ s.subjects }}</b></div>
+<div class="kpi"><i style="background:#f59e0b">★</i><span>Average rating</span><b>{{ s.overall }} <small>/ 5</small></b></div></div>
+<div class="grid3">
+<div class="card-x"><h6>Average rating over time</h6><canvas id="trend"></canvas></div>
+<div class="card-x"><h6>Responses by subject</h6><canvas id="subj"></canvas></div>
+<div class="card-x"><h6>Rating distribution</h6>
+{% for i in [5,4,3,2,1] %}<div class="dist"><span>{{ i }} ★</span><div><i style="width:{{ (s.dist[i]/s.total*100) if s.total else 0 }}%"></i></div><em>{{ s.dist[i] }}</em></div>{% endfor %}</div></div>
+<div class="grid2">
+<div class="card-x"><h6>Average rating by faculty</h6><canvas id="fac"></canvas></div>
+<div class="card-x"><h6>Average rating by category</h6><canvas id="cat"></canvas></div>
+<div class="card-x"><h6>Top rated faculty</h6>{% for n, a, c in s.top[:5] %}<div class="row-top"><span>{{ n }}<small>{{ c }} responses</small></span><b>{{ a }}</b></div>{% else %}<p class="text-muted">No feedback yet.</p>{% endfor %}</div></div>
+{% endblock %}
+{% block js %}<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>const s={{ {"trend":s.trend,"subj":s.subject_counts,"cats":s.cats,"top":s.top}|tojson }};
+const P=['#6c4cf1','#3b82f6','#f59e0b','#22b573','#ec4899','#14b8a6'];
+new Chart(trend,{type:'line',data:{labels:Object.keys(s.trend),datasets:[{data:Object.values(s.trend),borderColor:P[0],backgroundColor:'#6c4cf122',fill:true,tension:.3}]},options:{plugins:{legend:{display:false}},scales:{y:{min:0,max:5}}}});
+new Chart(subj,{type:'doughnut',data:{labels:Object.keys(s.subj),datasets:[{data:Object.values(s.subj),backgroundColor:P}]},options:{plugins:{legend:{position:'right'}}}});
+new Chart(fac,{type:'bar',data:{labels:s.top.map(t=>t[0]),datasets:[{data:s.top.map(t=>t[1]),backgroundColor:P[1]}]},options:{plugins:{legend:{display:false}},scales:{y:{min:0,max:5}}}});
+new Chart(cat,{type:'radar',data:{labels:Object.keys(s.cats),datasets:[{data:Object.values(s.cats),borderColor:P[0],backgroundColor:'#6c4cf133'}]},options:{plugins:{legend:{display:false}},scales:{r:{min:0,max:5}}}});</script>{% endblock %}

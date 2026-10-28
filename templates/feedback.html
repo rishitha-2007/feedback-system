@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block body %}
+<form method="post" class="card-x"><h4>Faculty feedback</h4>
+<label class="form-label">Subject and faculty</label>
+<select name="course" class="form-select mb-3" required><option value="">Choose one</option>
+{% for c in courses %}<option value="{{ c.subject }}|{{ c.faculty }}">{{ c.subject }} — {{ c.faculty }}</option>{% endfor %}</select>
+<div class="table-responsive"><table class="table matrix"><thead><tr><th>Question</th>{% for l in labels %}<th>{{ l }}</th>{% endfor %}</tr></thead><tbody>
+{% for key, name in cats.items() %}<tr><td>{{ name }}</td>{% for l in labels %}<td><input type="radio" name="{{ key }}" value="{{ loop.index }}" required aria-label="{{ name }}: {{ l }}"></td>{% endfor %}</tr>{% endfor %}
+</tbody></table></div>
+<label class="form-label">Comments (optional)</label><textarea name="comments" maxlength="500" class="form-control mb-3" rows="3"></textarea>
+<button class="btn btn-primary">Submit feedback</button></form>{% endblock %}

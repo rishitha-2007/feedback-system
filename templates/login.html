@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block body %}
+<div class="card-x mx-auto" style="max-width:380px"><h4>{{ 'Admin' if role=='admin' else 'Student' }} login</h4>
+<form method="post"><label class="form-label mt-2">{{ 'Username' if role=='admin' else 'Registration number' }}</label>
+<input class="form-control" name="username" required><label class="form-label mt-2">Password</label>
+<input class="form-control" type="password" name="password" required>
+<button class="btn btn-primary w-100 mt-3">Log in</button></form></div>{% endblock %}

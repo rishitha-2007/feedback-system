@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block body %}
+<div class="hero"><h1>Tell us how your classes are going.</h1>
+<p>Rate your faculty in under a minute. Your answers help improve teaching, and your ID is never shown with your comments.</p>
+<a class="btn btn-primary btn-lg" href="{{ url_for('login') }}">Submit feedback</a>
+<a class="btn btn-outline-secondary btn-lg" href="{{ url_for('login_admin') }}">Admin login</a></div>
+<div class="card-x mt-4"><h6>About the system</h6><p class="mb-0">Students rate teaching quality, communication and doubt clarification. Administrators review averages, trends and comments, then export reports.</p></div>
+{% endblock %}
