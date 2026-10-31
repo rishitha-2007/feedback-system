@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo import MongoClient
 from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 
-CATS = {"teaching_quality": "Teaching Quality", "communication": "Communication",
+CATS = {"teaching_quality": "Faculty Teaching Quality", "communication": "Communication",
         "doubt_clarification": "Doubt Clarification"}
 LABELS = ["Very poor", "Poor", "Good", "Very good", "Excellent"]
 COURSES = [("Database Management Systems", "Faculty A"), ("Operating Systems", "Faculty B"),
